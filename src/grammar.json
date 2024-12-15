@@ -455,8 +455,20 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[^\\^\",_/\\*\\s\\p{Close_Punctuation}\\p{Connector_Punctuation}\\p{Dash_Punctuation}\\p{Open_Punctuation}\\p{Final_Punctuation}\\p{Initial_Punctuation}\\p{Other_Punctuation}\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
+            "value": "[\\p{Letter}\\p{Number}]+",
             "flags": "u"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           },
           {
             "type": "CHOICE",
@@ -495,6 +507,18 @@
                 },
                 "named": true,
                 "value": "variable_subscript"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "'"
               },
               {
                 "type": "BLANK"

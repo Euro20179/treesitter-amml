@@ -91,14 +91,16 @@ module.exports = grammar({
 
     variable: $ =>
       prec.right(seq(
-        /[^\^",_/\*\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}\[\]{}\p{Modifier_Letter}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
+        /[\p{Letter}\p{Number}]+/u,
+        optional("'"),
         optional(alias(choice(
           repeat1(/[₀-₉\p{Modifier_Letter}]/u),
           seq(
             "_",
             repeat1(/[^\p{Space_Separator}\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]/u)
           )), $.variable_subscript)
-        )
+        ),
+        optional("'"),
       ))
     ,
 
