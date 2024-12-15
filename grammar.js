@@ -101,14 +101,12 @@ module.exports = grammar({
         $.adhock_operator,
         optional(field("rightName", $.variable)),
         alias("=", $.operator),
-        $.expression
       ),
       seq(
         alias("let", $.keyword),
         $.variable,
         optional($.func_names),
         alias("=", $.operator),
-        $.expression
       ),
     ),
 

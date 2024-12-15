@@ -38,10 +38,6 @@
           "named": true
         },
         {
-          "type": "expression",
-          "named": true
-        },
-        {
           "type": "func_names",
           "named": true
         },
