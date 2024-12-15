@@ -134,7 +134,7 @@ module.exports = grammar({
       ),
       prec.right(seq(
         alias("let", $.keyword),
-        choice($.variable, alias($.string, $.operator)),
+        choice($.variable, seq('"', alias(/[^"\n]+/, $.operator), '"')),
         optional($.func_names),
       )),
     ),
@@ -159,7 +159,7 @@ module.exports = grammar({
 
     // integral: $ => prec.left(seq("∫", repeat1($.expression))),
 
-    adhock_operator: $ => /\\\w+/,
+    adhock_operator: $ => /\\[^\s]+/,
     operator: $ => prec(10, choice(
       "[",
       "]",

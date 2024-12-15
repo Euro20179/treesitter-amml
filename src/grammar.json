@@ -683,13 +683,26 @@
                     "name": "variable"
                   },
                   {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "string"
-                    },
-                    "named": true,
-                    "value": "operator"
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": "\""
+                      },
+                      {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "PATTERN",
+                          "value": "[^\"\\n]+"
+                        },
+                        "named": true,
+                        "value": "operator"
+                      },
+                      {
+                        "type": "STRING",
+                        "value": "\""
+                      }
+                    ]
                   }
                 ]
               },
@@ -868,7 +881,7 @@
     },
     "adhock_operator": {
       "type": "PATTERN",
-      "value": "\\\\\\w+"
+      "value": "\\\\[^\\s]+"
     },
     "operator": {
       "type": "PREC",
