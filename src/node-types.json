@@ -392,7 +392,23 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
     "named": false
   },
   {
@@ -457,10 +473,6 @@
   },
   {
     "type": "Σ",
-    "named": false
-  },
-  {
-    "type": "⁄",
     "named": false
   },
   {

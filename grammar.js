@@ -96,7 +96,7 @@ module.exports = grammar({
           repeat1(/[₀-₉\p{Modifier_Letter}]/u),
           seq(
             "_",
-            repeat1(/[^\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]/u)
+            repeat1(/[^\p{Space_Separator}\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]/u)
           )), $.variable_subscript)
         )
       ))
@@ -130,12 +130,11 @@ module.exports = grammar({
         optional(field("rightName", $.variable)),
         alias("=", $.operator),
       ),
-      seq(
+      prec.right(seq(
         alias("let", $.keyword),
         choice($.variable, alias($.string, $.operator)),
         optional($.func_names),
-        alias("=", $.operator),
-      ),
+      )),
     ),
 
     number: $ => choice(
@@ -149,9 +148,8 @@ module.exports = grammar({
       alias("e", $.constant),
       /\p{Other_Number}/u,
       /\p{Decimal_Number}/u,
-      seq(/\d+/, "⁄", /\d+/),
       seq(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/, "/", /[₀₁₂₃₄₅₆₇₈₉]/),
-      seq(/\d+/, token.immediate(optional(seq(".", /\d+/)))),
+      /\d+[\.⁄]\d+/
     ),
 
     for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.expression, alias("..", $.operator), $.expression),
@@ -179,6 +177,10 @@ module.exports = grammar({
       "..",
       "_",
       ":",
+      ">",
+      "<",
+      ">=",
+      "<=",
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,
