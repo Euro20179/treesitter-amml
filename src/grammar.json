@@ -132,7 +132,7 @@
     },
     "parenthasized_expression": {
       "type": "PREC",
-      "value": 10,
+      "value": 20,
       "content": {
         "type": "SEQ",
         "members": [
@@ -293,51 +293,61 @@
       ]
     },
     "variable": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "[^\\^\",_/\\*\\s()\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
-          "flags": "u"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "PATTERN",
-                    "value": "[₀-₉\\p{Modifier_Letter}]+",
-                    "flags": "u"
-                  },
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": "_"
-                      },
-                      {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^\\^\",_/\\*\\s\\p{Close_Punctuation}\\p{Connector_Punctuation}\\p{Dash_Punctuation}\\p{Open_Punctuation}\\p{Final_Punctuation}\\p{Initial_Punctuation}\\p{Other_Punctuation}\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
+            "flags": "u"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "ALIAS",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "REPEAT1",
+                      "content": {
                         "type": "PATTERN",
-                        "value": "[^\\s\\p{Close_Punctuation}\\p{Connector_Punctuation}\\p{Dash_Punctuation}\\p{Open_Punctuation}\\p{Final_Punctuation}\\p{Initial_Punctuation}\\p{Other_Punctuation}]+",
+                        "value": "[₀-₉\\p{Modifier_Letter}]",
                         "flags": "u"
                       }
-                    ]
-                  }
-                ]
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "_"
+                        },
+                        {
+                          "type": "REPEAT1",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[^\\s\\p{Close_Punctuation}\\p{Connector_Punctuation}\\p{Dash_Punctuation}\\p{Open_Punctuation}\\p{Final_Punctuation}\\p{Initial_Punctuation}\\p{Other_Punctuation}]",
+                            "flags": "u"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "named": true,
+                "value": "variable_subscript"
               },
-              "named": true,
-              "value": "variable_subscript"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "func_names": {
       "type": "SEQ",
@@ -481,8 +491,22 @@
               "value": "keyword"
             },
             {
-              "type": "SYMBOL",
-              "name": "variable"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "variable"
+                },
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "string"
+                  },
+                  "named": true,
+                  "value": "operator"
+                }
+              ]
             },
             {
               "type": "CHOICE",
@@ -712,86 +736,90 @@
       "value": "\\\\\\w+"
     },
     "operator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        },
-        {
-          "type": "STRING",
-          "value": "+"
-        },
-        {
-          "type": "STRING",
-          "value": "-"
-        },
-        {
-          "type": "STRING",
-          "value": "*"
-        },
-        {
-          "type": "STRING",
-          "value": "/"
-        },
-        {
-          "type": "STRING",
-          "value": "^"
-        },
-        {
-          "type": "STRING",
-          "value": "Σ"
-        },
-        {
-          "type": "STRING",
-          "value": "Π"
-        },
-        {
-          "type": "STRING",
-          "value": "("
-        },
-        {
-          "type": "STRING",
-          "value": ")"
-        },
-        {
-          "type": "STRING",
-          "value": "∫"
-        },
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "STRING",
-          "value": "~="
-        },
-        {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "STRING",
-          "value": "|"
-        },
-        {
-          "type": "STRING",
-          "value": ".."
-        },
-        {
-          "type": "SYMBOL",
-          "name": "adhock_operator"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\p{Math_Symbol}",
-          "flags": "u"
-        }
-      ]
+      "type": "PREC",
+      "value": 10,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          },
+          {
+            "type": "STRING",
+            "value": "+"
+          },
+          {
+            "type": "STRING",
+            "value": "-"
+          },
+          {
+            "type": "STRING",
+            "value": "*"
+          },
+          {
+            "type": "STRING",
+            "value": "/"
+          },
+          {
+            "type": "STRING",
+            "value": "^"
+          },
+          {
+            "type": "STRING",
+            "value": "Σ"
+          },
+          {
+            "type": "STRING",
+            "value": "Π"
+          },
+          {
+            "type": "STRING",
+            "value": "("
+          },
+          {
+            "type": "STRING",
+            "value": ")"
+          },
+          {
+            "type": "STRING",
+            "value": "∫"
+          },
+          {
+            "type": "STRING",
+            "value": "="
+          },
+          {
+            "type": "STRING",
+            "value": "~="
+          },
+          {
+            "type": "STRING",
+            "value": ","
+          },
+          {
+            "type": "STRING",
+            "value": "|"
+          },
+          {
+            "type": "STRING",
+            "value": ".."
+          },
+          {
+            "type": "SYMBOL",
+            "name": "adhock_operator"
+          },
+          {
+            "type": "PATTERN",
+            "value": "\\p{Math_Symbol}",
+            "flags": "u"
+          }
+        ]
+      }
     }
   },
   "extras": [

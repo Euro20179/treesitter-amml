@@ -42,7 +42,7 @@ module.exports = grammar({
       )
     ),
 
-    parenthasized_expression: $ => prec(10, seq("(", repeat1($.expression), ")")),
+    parenthasized_expression: $ => prec(20, seq("(", repeat1($.expression), ")")),
 
     func_call: $ => prec(100, choice(
       seq(field("funcname", $.variable), "of", $.expression),
@@ -65,13 +65,16 @@ module.exports = grammar({
     ),
 
     variable: $ =>
-      seq(
-        /[^\^",_/\*\s()\[\]{}\p{Modifier_Letter}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
+      prec.right(seq(
+        /[^\^",_/\*\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}\[\]{}\p{Modifier_Letter}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
         optional(alias(choice(
-          /[₀-₉\p{Modifier_Letter}]+/u,
-          seq("_", /[^\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]+/u)), $.variable_subscript)
+          repeat1(/[₀-₉\p{Modifier_Letter}]/u),
+          seq(
+            "_",
+            repeat1(/[^\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]/u)
+          )), $.variable_subscript)
         )
-      )
+      ))
     ,
 
     func_names: $ => seq(
@@ -104,7 +107,7 @@ module.exports = grammar({
       ),
       seq(
         alias("let", $.keyword),
-        $.variable,
+        choice($.variable, alias($.string, $.operator)),
         optional($.func_names),
         alias("=", $.operator),
       ),
@@ -131,7 +134,7 @@ module.exports = grammar({
     // integral: $ => prec.left(seq("∫", repeat1($.expression))),
 
     adhock_operator: $ => /\\\w+/,
-    operator: $ => choice(
+    operator: $ => prec(10, choice(
       "[",
       "]",
       "+",
@@ -152,6 +155,6 @@ module.exports = grammar({
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,
-    ),
+    )),
   }
 });

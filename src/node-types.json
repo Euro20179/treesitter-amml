@@ -304,6 +304,11 @@
     }
   },
   {
+    "type": "variable_subscript",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -390,10 +395,6 @@
   {
     "type": "of",
     "named": false
-  },
-  {
-    "type": "variable_subscript",
-    "named": true
   },
   {
     "type": "{",

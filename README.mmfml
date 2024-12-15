@@ -30,6 +30,16 @@ let x = 4
 /*"predefined" functions*/
 let a = sin(3/5)
 
+/*adhock operators*/
+x \mod y /*anything with a \ is an "adhock" operator*/
+
+/*defining adhock operators*/
+/*the left, right are optional*/
+let left \mod right = "the remainder of" left / right
+
+/*establishing an operator*/
+let "**" = "^"
+
 /*integral*/
 ∫ x dx | 10 .. 1
 /*or*/
