@@ -1,0 +1,70 @@
+                                     = amml
+                        (/Amazing Math Markup Language/)
+
+                       It has a name as good as `mmfml`!
+
+───────────────────────────────────────────────────────────────────────────────
+
+= Goal
+
+Make a math markup language that is readable without a renderer
+
+and also has good syntax highlighting
+
+= Example
+
+>amml
+
+/*comment*/
+
+/*(markdown)
+*this is a comment injection*
+*/
+
+/*variable*/
+let x = 4
+
+/*fractions*/
+½
+
+/*"predefined" functions*/
+let a = sin(3/5)
+
+/*integral*/
+∫ x dx | 10 .. 1
+
+/*function definitions and constants, (i, pi)*/
+let f(x, y) = (3i * 4π) / (x/y)
+
+/*subscripts and superscripts*/
+let f₁(x) = x³
+
+/*this also works*/
+let f_2(x) = x^4
+
+/*summation*/
+let g(x) = Σ(a⁴) for a = x .. 2x
+
+/*matrix*/
+let m₀ = [ 1 2, 3 4 ]
+let m₁ = [
+    1 2
+    3 4
+]
+
+let Z = "the set of all real integers"
+
+/*sequence*/
+let k = {int * 2 | int ∈ Z }
+let s = (kₓ²) for x = 1 .. 10
+s = (2^2, 4^2, 6^2 ... 20^2)
+s = (4, 16, 36 ... 400)
+
+s(1) = 4
+
+/*sets*/
+let a = {θ, 2θ, 3Θ}
+
+/*set builder notation*/
+let b = {x | x ∈ Z, (x \mod 2) ≠ 0}
+<
