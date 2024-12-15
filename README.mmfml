@@ -32,6 +32,11 @@ let a = sin(3/5)
 
 /*integral*/
 ∫ x dx | 10 .. 1
+/*or*/
+₁∫³⁴ x dx
+
+/*indefinite integral*/
+∫ x dx
 
 /*function definitions and constants, (i, pi)*/
 let f(x, y) = (3i * 4π) / (x/y)
