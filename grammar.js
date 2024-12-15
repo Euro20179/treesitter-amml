@@ -91,7 +91,7 @@ module.exports = grammar({
 
     variable: $ =>
       prec.right(seq(
-        /[\p{Letter}\p{Number}]+/u,
+        /[\p{Letter}][\p{Letter}\p{Number}]*/u,
         optional("'"),
         optional(alias(choice(
           repeat1(/[₀-₉\p{Modifier_Letter}]/u),
