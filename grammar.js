@@ -149,7 +149,8 @@ module.exports = grammar({
       /\p{Other_Number}/u,
       /\p{Decimal_Number}/u,
       seq(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/, "/", /[₀₁₂₃₄₅₆₇₈₉]/),
-      /\d+[\.⁄]\d+/
+      /\d+(?:[\.⁄]\d+)?/,
+      /[\.⁄]\d+/
     ),
 
     for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.expression, alias("..", $.operator), $.expression),
