@@ -56,10 +56,6 @@
           "named": true
         },
         {
-          "type": "i",
-          "named": true
-        },
-        {
           "type": "number",
           "named": true
         },
@@ -155,6 +151,25 @@
     }
   },
   {
+    "type": "integral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "note",
     "named": true,
     "fields": {},
@@ -189,6 +204,10 @@
         {
           "type": "constant",
           "named": true
+        },
+        {
+          "type": "i",
+          "named": true
         }
       ]
     }
@@ -203,6 +222,10 @@
       "types": [
         {
           "type": "adhock_operator",
+          "named": true
+        },
+        {
+          "type": "integral",
           "named": true
         }
       ]
@@ -373,27 +396,11 @@
     "named": false
   },
   {
-    "type": "∈",
-    "named": false
-  },
-  {
-    "type": "∩",
-    "named": false
-  },
-  {
-    "type": "∪",
+    "type": "⁄",
     "named": false
   },
   {
     "type": "∫",
-    "named": false
-  },
-  {
-    "type": "⊂",
-    "named": false
-  },
-  {
-    "type": "⊃",
     "named": false
   }
 ]

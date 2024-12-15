@@ -122,10 +122,6 @@
             {
               "type": "SYMBOL",
               "name": "string"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "i"
             }
           ]
         }
@@ -147,10 +143,6 @@
           "value": "\""
         }
       ]
-    },
-    "i": {
-      "type": "STRING",
-      "value": "i"
     },
     "func_call": {
       "type": "SEQ",
@@ -239,15 +231,25 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "PATTERN",
-            "value": "[^\\d\\s(){}\\\\]"
-          },
-          {
-            "type": "REPEAT",
+            "type": "REPEAT1",
             "content": {
               "type": "PATTERN",
-              "value": "\\w"
+              "value": "[^\\p{Math_Symbol}\\p{Decimal_Number}\\s(){}\\\\\\p{Other_Number}]",
+              "flags": "u"
             }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "_[\\p{Other_Number}\\p{Decimal_Number}]+",
+                "flags": "u"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -466,6 +468,15 @@
           "type": "ALIAS",
           "content": {
             "type": "STRING",
+            "value": "i"
+          },
+          "named": true,
+          "value": "i"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
             "value": "tau"
           },
           "named": true,
@@ -488,6 +499,50 @@
           },
           "named": true,
           "value": "constant"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\p{Other_Number}",
+          "flags": "u"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\p{Decimal_Number}",
+          "flags": "u"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "\\d+"
+            },
+            {
+              "type": "STRING",
+              "value": "⁄"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\d+"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[⁰¹²³⁴⁵⁶⁷⁸⁹]"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[₀₁₂₃₄₅₆₇₈₉]"
+            }
+          ]
         },
         {
           "type": "SEQ",
@@ -568,6 +623,35 @@
         }
       ]
     },
+    "integral": {
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "∫"
+          },
+          {
+            "type": "REPEAT1",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "PATTERN",
+              "value": "d[^\\s]+"
+            },
+            "named": true,
+            "value": "keyword"
+          }
+        ]
+      }
+    },
     "operator": {
       "type": "CHOICE",
       "members": [
@@ -600,8 +684,8 @@
           "value": "Π"
         },
         {
-          "type": "STRING",
-          "value": "∫"
+          "type": "SYMBOL",
+          "name": "integral"
         },
         {
           "type": "STRING",
@@ -609,27 +693,15 @@
         },
         {
           "type": "STRING",
-          "value": "∈"
-        },
-        {
-          "type": "STRING",
-          "value": "∩"
-        },
-        {
-          "type": "STRING",
-          "value": "∪"
-        },
-        {
-          "type": "STRING",
-          "value": "⊂"
-        },
-        {
-          "type": "STRING",
-          "value": "⊃"
-        },
-        {
-          "type": "STRING",
           "value": "~="
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         },
         {
           "type": "ALIAS",
@@ -639,6 +711,11 @@
           },
           "named": true,
           "value": "adhock_operator"
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\p{Math_Symbol}",
+          "flags": "u"
         }
       ]
     }
@@ -649,7 +726,16 @@
       "value": "\\s"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "func_call",
+      "expression"
+    ],
+    [
+      "operator",
+      "func_params"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

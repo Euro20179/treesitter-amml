@@ -7,6 +7,11 @@
 module.exports = grammar({
   name: "amml",
 
+  conflicts: $ => [
+    [$.func_call, $.expression ],
+    [$.operator, $.func_params]
+  ],
+
   rules: {
     // TODO: add the actual grammar rules
     source_file: $ => repeat(choice(
@@ -35,13 +40,10 @@ module.exports = grammar({
         $.subtraction_bar,
         $.set,
         $.string,
-        $.i,
       )
     ),
 
     string: $ => seq('"', /[^"\n]+/, '"'),
-
-    i: $ => "i",
 
     func_call: $ => seq(field("funcname", $.variable), $.func_params),
 
@@ -58,7 +60,12 @@ module.exports = grammar({
       "}",
     ),
 
-    variable: $ => prec.left(seq(/[^\d\s(){}\\]/, repeat(/\w/))),
+    variable: $ => prec.left(
+      seq(
+        repeat1(/[^\p{Math_Symbol}\p{Decimal_Number}\s(){}\\\p{Other_Number}]/u),
+        optional(/_[\p{Other_Number}\p{Decimal_Number}]+/u)
+      )
+    ),
 
     func_params: $ => seq(
       "(",
@@ -90,13 +97,20 @@ module.exports = grammar({
       alias("τ", $.constant),
       alias("pi", $.constant),
       alias("PI", $.constant),
+      alias("i", $.i),
       alias("tau", $.constant),
       alias("TAU", $.constant),
       alias("e", $.constant),
+      /\p{Other_Number}/u,
+      /\p{Decimal_Number}/u,
+      seq(/\d+/, "⁄", /\d+/),
+      seq(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/, "/", /[₀₁₂₃₄₅₆₇₈₉]/),
       seq(/\d+/, token.immediate(optional(seq(".", /\d+/)))),
     ),
 
     for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.number, alias("..", $.operator), $.number),
+
+    integral: $ => prec.left(seq("∫", repeat1($.expression), alias(/d[^\s]+/, $.keyword))),
 
     operator: $ => choice(
       "+",
@@ -106,15 +120,14 @@ module.exports = grammar({
       "^",
       "Σ",
       "Π",
-      "∫",
+      $.integral,
       "=",
-      "∈",
-      "∩",
-      "∪",
-      "⊂",
-      "⊃",
       "~=",
-      alias(/\\\w+/, $.adhock_operator)
+      "(",
+      ")",
+      alias(/\\\w+/, $.adhock_operator),
+      //now this is what i call regex
+      /\p{Math_Symbol}/u,
     ),
   }
 });
