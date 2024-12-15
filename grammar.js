@@ -35,7 +35,6 @@ module.exports = grammar({
         $.operator,
         $.variable,
         $.for_range,
-        $.subtraction_bar,
         $.set,
         $.string,
         $.func_call,
@@ -67,7 +66,7 @@ module.exports = grammar({
 
     variable: $ =>
       seq(
-        /[^,_/\*\p{Math_Symbol}\p{Decimal_Number}\s(){}\\\p{Other_Number}]+/u,
+        /[^",_/\*\s()\[\]{}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
         optional(alias(choice(
           /[₀-₉]+/,
           seq("_", /[\p{Decimal_Number}\p{Other_Number}\d]+/)), $.variable_subscript)
@@ -86,14 +85,14 @@ module.exports = grammar({
       ")"
     ),
 
-    subtraction_bar: $ => seq(
-      alias("|", $.operator),
-      optional(alias("^", $.operator)),
-      $.number,
-      alias("..", $.operator),
-      optional(alias("_", $.operator)),
-      $.number
-    ),
+    // subtraction_bar: $ => seq(
+    //   alias("|", $.operator),
+    //   optional(alias("^", $.operator)),
+    //   $.number,
+    //   alias("..", $.operator),
+    //   optional(alias("_", $.operator)),
+    //   $.number
+    // ),
 
     create_var: $ => choice(
       seq(
@@ -135,6 +134,8 @@ module.exports = grammar({
 
     adhock_operator: $ => /\\\w+/,
     operator: $ => choice(
+      "[",
+      "]",
       "+",
       "-",
       "*",
@@ -148,6 +149,8 @@ module.exports = grammar({
       "=",
       "~=",
       ",",
+      "|",
+      "..",
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,

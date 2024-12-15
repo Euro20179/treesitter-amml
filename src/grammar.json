@@ -112,10 +112,6 @@
             },
             {
               "type": "SYMBOL",
-              "name": "subtraction_bar"
-            },
-            {
-              "type": "SYMBOL",
               "name": "set"
             },
             {
@@ -301,7 +297,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[^,_/\\*\\p{Math_Symbol}\\p{Decimal_Number}\\s(){}\\\\\\p{Other_Number}]+",
+          "value": "[^\",_/\\*\\p{Math_Symbol}\\p{Decimal_Number}\\s(){}\\\\\\p{Other_Number}]+",
           "flags": "u"
         },
         {
@@ -405,71 +401,6 @@
         {
           "type": "STRING",
           "value": ")"
-        }
-      ]
-    },
-    "subtraction_bar": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "|"
-          },
-          "named": true,
-          "value": "operator"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "^"
-              },
-              "named": true,
-              "value": "operator"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "number"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": ".."
-          },
-          "named": true,
-          "value": "operator"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "_"
-              },
-              "named": true,
-              "value": "operator"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "number"
         }
       ]
     },
@@ -791,6 +722,14 @@
       "members": [
         {
           "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        },
+        {
+          "type": "STRING",
           "value": "+"
         },
         {
@@ -840,6 +779,14 @@
         {
           "type": "STRING",
           "value": ","
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "STRING",
+          "value": ".."
         },
         {
           "type": "SYMBOL",

@@ -101,10 +101,6 @@
           "named": true
         },
         {
-          "type": "subtraction_bar",
-          "named": true
-        },
-        {
           "type": "variable",
           "named": true
         }
@@ -297,25 +293,6 @@
     "fields": {}
   },
   {
-    "type": "subtraction_bar",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "operator",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "variable",
     "named": true,
     "fields": {},
@@ -363,6 +340,10 @@
     "named": false
   },
   {
+    "type": "..",
+    "named": false
+  },
+  {
     "type": "/",
     "named": false
   },
@@ -376,6 +357,14 @@
   },
   {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
@@ -412,6 +401,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "|",
     "named": false
   },
   {
