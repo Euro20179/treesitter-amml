@@ -13,11 +13,12 @@ module.exports = grammar({
 
   rules: {
     // TODO: add the actual grammar rules
-    source_file: $ => repeat(choice(
-      $.expression,
-      $.note,
-      $.comment
-    )
+    source_file: $ => repeat(
+      choice(
+        $.expression,
+        $.note,
+        $.comment
+      )
     ),
 
     comment: $ => prec.left(seq("/*", repeat1(/./), "*/")),
@@ -38,18 +39,42 @@ module.exports = grammar({
         $.set,
         $.string,
         $.func_call,
+        $.limit,
         $.parenthasized_expression,
       )
     ),
 
     parenthasized_expression: $ => prec(20, seq("(", repeat1($.expression), ")")),
 
+    limit: $ => prec.right(
+      seq(
+        alias("lim", $.operator),
+        choice(
+          seq(
+            alias("as", $.keyword),
+            optional("("),
+            $.variable,
+            alias(choice("->", "→", "approaches"), $.operator),
+            $.expression,
+            optional(")"),
+          ),
+          seq(
+            "(",
+            $.variable,
+            alias(choice("->", "→", "approaches"), $.operator),
+            $.expression,
+            ")",
+          ),
+        ),
+        optional(alias("of", $.keyword))
+      )),
+
     func_call: $ => prec(100, choice(
       seq(field("funcname", $.variable), "of", $.expression),
       seq(field("funcname", $.variable), "(", repeat($.expression), ")")),
     ),
 
-    string: $ => seq('"', /[^"\n]+/, '"'),
+    string: $ => seq('"', /[^"]+/, '"'),
 
     set: $ => seq("{",
       repeat(
@@ -152,6 +177,8 @@ module.exports = grammar({
       ",",
       "|",
       "..",
+      "_",
+      ":",
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,

@@ -77,6 +77,10 @@
           "named": true
         },
         {
+          "type": "limit",
+          "named": true
+        },
+        {
           "type": "number",
           "named": true
         },
@@ -164,6 +168,33 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "limit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
         {
           "type": "variable",
           "named": true
@@ -357,6 +388,10 @@
     "named": false
   },
   {
+    "type": ":",
+    "named": false
+  },
+  {
     "type": "=",
     "named": false
   },
@@ -370,6 +405,10 @@
   },
   {
     "type": "^",
+    "named": false
+  },
+  {
+    "type": "_",
     "named": false
   },
   {
