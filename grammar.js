@@ -16,7 +16,7 @@ module.exports = grammar({
     )
     ),
 
-    comment: $ => prec.left(seq("/*", repeat1(/.+/), "*/")),
+    comment: $ => prec.left(seq("/*", /[^\n]+/, "*/")),
 
     note: $ => seq(
       "NOTE(", alias(/\w+/, $.note_format), ")",
