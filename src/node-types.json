@@ -7,17 +7,42 @@
   {
     "type": "create_var",
     "named": true,
-    "fields": {},
+    "fields": {
+      "leftName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      },
+      "rightName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "variable",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "adhock_operator",
+          "named": true
+        },
+        {
           "type": "expression",
           "named": true
         },
         {
-          "type": "func_params",
+          "type": "func_names",
           "named": true
         },
         {
@@ -64,6 +89,10 @@
           "named": true
         },
         {
+          "type": "parenthasized_expression",
+          "named": true
+        },
+        {
           "type": "set",
           "named": true
         },
@@ -91,11 +120,11 @@
       "required": true,
       "types": [
         {
-          "type": "keyword",
+          "type": "expression",
           "named": true
         },
         {
-          "type": "number",
+          "type": "keyword",
           "named": true
         },
         {
@@ -125,21 +154,6 @@
       }
     },
     "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "func_params",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "func_params",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": false,
       "types": [
@@ -151,19 +165,15 @@
     }
   },
   {
-    "type": "integral",
+    "type": "func_names",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "keyword",
+          "type": "variable",
           "named": true
         }
       ]
@@ -223,9 +233,20 @@
         {
           "type": "adhock_operator",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthasized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "integral",
+          "type": "expression",
           "named": true
         }
       ]
@@ -297,7 +318,17 @@
   {
     "type": "variable",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "variable_subscript",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "\"",
@@ -340,15 +371,11 @@
     "named": false
   },
   {
+    "type": "/*(",
+    "named": false
+  },
+  {
     "type": "=",
-    "named": false
-  },
-  {
-    "type": "ENDNOTE",
-    "named": false
-  },
-  {
-    "type": "NOTE(",
     "named": false
   },
   {
@@ -373,6 +400,14 @@
   },
   {
     "type": "note_format",
+    "named": true
+  },
+  {
+    "type": "of",
+    "named": false
+  },
+  {
+    "type": "variable_subscript",
     "named": true
   },
   {

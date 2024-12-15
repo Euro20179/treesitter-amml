@@ -8,8 +8,7 @@ module.exports = grammar({
   name: "amml",
 
   conflicts: $ => [
-    [$.func_call, $.expression ],
-    [$.operator, $.func_params]
+    // [$.func_call, $.expression],
   ],
 
   rules: {
@@ -21,12 +20,12 @@ module.exports = grammar({
     )
     ),
 
-    comment: $ => prec.left(seq("/*", /[^\n]+/, "*/")),
+    comment: $ => prec.left(seq("/*", repeat1(/./), "*/")),
 
     note: $ => seq(
-      "NOTE(", alias(/\w+/, $.note_format), ")",
+      "/*(", alias(/\w+/, $.note_format), ")",
       alias(repeat1(/.+/), $.note_text),
-      "ENDNOTE"
+      "*/"
     ),
 
     expression: $ => seq(
@@ -35,17 +34,23 @@ module.exports = grammar({
         $.number,
         $.operator,
         $.variable,
-        $.func_call,
         $.for_range,
         $.subtraction_bar,
         $.set,
         $.string,
+        $.func_call,
+        $.parenthasized_expression,
       )
     ),
 
-    string: $ => seq('"', /[^"\n]+/, '"'),
+    parenthasized_expression: $ => prec(10, seq("(", repeat1($.expression), ")")),
 
-    func_call: $ => seq(field("funcname", $.variable), $.func_params),
+    func_call: $ => prec(100, choice(
+      seq(field("funcname", $.variable), "of", $.expression),
+      seq(field("funcname", $.variable), "(", repeat($.expression), ")")),
+    ),
+
+    string: $ => seq('"', /[^"\n]+/, '"'),
 
     set: $ => seq("{",
       repeat(
@@ -60,24 +65,24 @@ module.exports = grammar({
       "}",
     ),
 
-    variable: $ => prec.left(
+    variable: $ =>
       seq(
-        repeat1(/[^\p{Math_Symbol}\p{Decimal_Number}\s(){}\\\p{Other_Number}]/u),
-        optional(/_[\p{Other_Number}\p{Decimal_Number}]+/u)
-      )
-    ),
-
-    func_params: $ => seq(
-      "(",
-      repeat(
-        seq(
-          //this mess allows for an optional ","
-          optional(
-            seq($.expression, ",")
-          ),
-          seq($.expression, optional(","))
+        /[^,_/\*\p{Math_Symbol}\p{Decimal_Number}\s(){}\\\p{Other_Number}]+/u,
+        optional(alias(choice(
+          /[₀-₉]+/,
+          seq("_", /[\p{Decimal_Number}\p{Other_Number}\d]+/)), $.variable_subscript)
         )
-      ),
+      )
+    ,
+
+    func_names: $ => seq(
+      "(",
+      prec.left(repeat(
+        seq(optional(
+          seq($.variable, ",")
+        ),
+          seq($.variable, optional(","))
+        ))),
       ")"
     ),
 
@@ -90,7 +95,23 @@ module.exports = grammar({
       $.number
     ),
 
-    create_var: $ => seq(alias("let", $.keyword), $.variable, optional($.func_params), alias("=", $.operator), $.expression),
+    create_var: $ => choice(
+      seq(
+        alias("let", $.keyword),
+        optional(field("leftName", $.variable)),
+        $.adhock_operator,
+        optional(field("rightName", $.variable)),
+        alias("=", $.operator),
+        $.expression
+      ),
+      seq(
+        alias("let", $.keyword),
+        $.variable,
+        optional($.func_names),
+        alias("=", $.operator),
+        $.expression
+      ),
+    ),
 
     number: $ => choice(
       alias("π", $.constant),
@@ -108,10 +129,11 @@ module.exports = grammar({
       seq(/\d+/, token.immediate(optional(seq(".", /\d+/)))),
     ),
 
-    for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.number, alias("..", $.operator), $.number),
+    for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.expression, alias("..", $.operator), $.expression),
 
-    integral: $ => prec.left(seq("∫", repeat1($.expression), alias(/d[^\s]+/, $.keyword))),
+    // integral: $ => prec.left(seq("∫", repeat1($.expression))),
 
+    adhock_operator: $ => /\\\w+/,
     operator: $ => choice(
       "+",
       "-",
@@ -120,12 +142,13 @@ module.exports = grammar({
       "^",
       "Σ",
       "Π",
-      $.integral,
-      "=",
-      "~=",
       "(",
       ")",
-      alias(/\\\w+/, $.adhock_operator),
+      "∫",
+      "=",
+      "~=",
+      ",",
+      $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,
     ),
