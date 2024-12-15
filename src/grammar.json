@@ -881,7 +881,7 @@
     },
     "adhock_operator": {
       "type": "PATTERN",
-      "value": "\\\\[^\\s]+"
+      "value": "\\\\[\\p{Letter}]+"
     },
     "operator": {
       "type": "PREC",

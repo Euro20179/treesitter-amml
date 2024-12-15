@@ -159,7 +159,7 @@ module.exports = grammar({
 
     // integral: $ => prec.left(seq("∫", repeat1($.expression))),
 
-    adhock_operator: $ => /\\[^\s]+/,
+    adhock_operator: $ => /\\[\p{Letter}]+/,
     operator: $ => prec(10, choice(
       "[",
       "]",
