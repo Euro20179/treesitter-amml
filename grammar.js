@@ -11,14 +11,17 @@ module.exports = grammar({
     // TODO: add the actual grammar rules
     source_file: $ => repeat(choice(
       $.expression,
-      $.note
+      $.note,
+      $.comment
     )
     ),
 
+    comment: $ => prec.left(seq("/*", repeat1(/.+/), "*/")),
+
     note: $ => seq(
-      "\nNOTE(", alias(/\w+/, $.note_format), ")\n",
-      alias(repeat1(/./), $.note_text),
-      "\nENDNOTE\n"
+      "NOTE(", alias(/\w+/, $.note_format), ")",
+      alias(repeat1(/.+/), $.note_text),
+      "ENDNOTE"
     ),
 
     expression: $ => seq(
@@ -32,10 +35,13 @@ module.exports = grammar({
         $.subtraction_bar,
         $.set,
         $.string,
+        $.i,
       )
     ),
 
     string: $ => seq('"', /[^"\n]+/, '"'),
+
+    i: $ => "i",
 
     func_call: $ => seq(field("funcname", $.variable), $.func_params),
 
@@ -52,7 +58,7 @@ module.exports = grammar({
       "}",
     ),
 
-    variable: $ => prec.left(seq(/[^\d\s(){}]/, repeat(/\w/))),
+    variable: $ => prec.left(seq(/[^\d\s(){}\\]/, repeat(/\w/))),
 
     func_params: $ => seq(
       "(",
@@ -79,7 +85,16 @@ module.exports = grammar({
 
     create_var: $ => seq(alias("let", $.keyword), $.variable, optional($.func_params), alias("=", $.operator), $.expression),
 
-    number: $ => seq(/\d+/, token.immediate(optional(seq(".", /\d+/)))),
+    number: $ => choice(
+      alias("π", $.constant),
+      alias("τ", $.constant),
+      alias("pi", $.constant),
+      alias("PI", $.constant),
+      alias("tau", $.constant),
+      alias("TAU", $.constant),
+      alias("e", $.constant),
+      seq(/\d+/, token.immediate(optional(seq(".", /\d+/)))),
+    ),
 
     for_range: $ => seq(alias("for", $.keyword), $.variable, alias("=", $.operator), $.number, alias("..", $.operator), $.number),
 
@@ -99,6 +114,7 @@ module.exports = grammar({
       "⊂",
       "⊃",
       "~=",
+      alias(/\\\w+/, $.adhock_operator)
     ),
   }
 });
