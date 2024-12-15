@@ -297,7 +297,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[^\",_/\\*\\s()\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
+          "value": "[^\\^\",_/\\*\\s()\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
           "flags": "u"
         },
         {
