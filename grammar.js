@@ -71,7 +71,7 @@ module.exports = grammar({
 
     func_call: $ => prec(100, choice(
       seq(field("funcname", $.variable), "of", $.expression),
-      seq(field("funcname", $.variable), "(", repeat($.expression), ")")),
+      seq(field("funcname", $.variable), token.immediate("("), repeat($.expression), ")")),
     ),
 
     string: $ => seq('"', /[^"]+/, '"'),
