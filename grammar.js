@@ -66,10 +66,10 @@ module.exports = grammar({
 
     variable: $ =>
       seq(
-        /[^",_/\*\s()\[\]{}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
+        /[^",_/\*\s()\[\]{}\p{Modifier_Letter}\p{Math_Symbol}\p{Decimal_Number}\\\p{Other_Number}]+/u,
         optional(alias(choice(
-          /[₀-₉]+/,
-          seq("_", /[\p{Decimal_Number}\p{Other_Number}\d]+/)), $.variable_subscript)
+          /[₀-₉\p{Modifier_Letter}]+/u,
+          seq("_", /[^\s\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]+/u)), $.variable_subscript)
         )
       )
     ,

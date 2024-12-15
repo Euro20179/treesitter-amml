@@ -297,7 +297,7 @@
       "members": [
         {
           "type": "PATTERN",
-          "value": "[^\",_/\\*\\s()\\[\\]{}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
+          "value": "[^\",_/\\*\\s()\\[\\]{}\\p{Modifier_Letter}\\p{Math_Symbol}\\p{Decimal_Number}\\\\\\p{Other_Number}]+",
           "flags": "u"
         },
         {
@@ -310,7 +310,8 @@
                 "members": [
                   {
                     "type": "PATTERN",
-                    "value": "[₀-₉]+"
+                    "value": "[₀-₉\\p{Modifier_Letter}]+",
+                    "flags": "u"
                   },
                   {
                     "type": "SEQ",
@@ -321,7 +322,8 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[\\p{Decimal_Number}\\p{Other_Number}\\d]+"
+                        "value": "[^\\s\\p{Close_Punctuation}\\p{Connector_Punctuation}\\p{Dash_Punctuation}\\p{Open_Punctuation}\\p{Final_Punctuation}\\p{Initial_Punctuation}\\p{Other_Punctuation}]+",
+                        "flags": "u"
                       }
                     ]
                   }
