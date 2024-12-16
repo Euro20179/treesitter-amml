@@ -40,6 +40,7 @@ module.exports = grammar({
         $.string,
         $.func_call,
         $.limit,
+        $.constant,
         $.parenthasized_expression,
       )
     ),
@@ -90,8 +91,8 @@ module.exports = grammar({
     ),
 
     variable: $ =>
-      prec.right(seq(
-        /[\p{Letter}]+/u,
+      prec.left(seq(
+        /\p{Letter}+/u,
         optional("'"),
         optional(alias(choice(
           repeat1(/[₀-₉\p{Modifier_Letter}]/u),
@@ -139,18 +140,17 @@ module.exports = grammar({
       )),
     ),
 
-    number: $ => choice(
-      alias("π", $.constant),
-      alias("τ", $.constant),
-      alias("pi", $.constant),
-      alias("PI", $.constant),
+    constant: $ => choice(
+      "π",
+      "τ",
+      "e",
       alias("i", $.i),
-      alias("tau", $.constant),
-      alias("TAU", $.constant),
-      alias("e", $.constant),
-      /\p{Other_Number}/u,
-      /\p{Decimal_Number}/u,
-      seq(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/, "/", /[₀₁₂₃₄₅₆₇₈₉]/),
+    ),
+
+    number: $ => choice(
+      /\p{Other_Number}+/u,
+      /\p{Decimal_Number}+/u,
+      seq(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/, "/", /[₀₁₂₃₄₅₆₇₈₉]+/),
       /\d+(?:[\.⁄]\d+)?/,
       /[\.⁄]\d+/
     ),
@@ -184,6 +184,7 @@ module.exports = grammar({
       "<",
       ">=",
       "<=",
+      "%",
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,

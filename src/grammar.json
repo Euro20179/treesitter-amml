@@ -128,6 +128,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "constant"
+            },
+            {
+              "type": "SYMBOL",
               "name": "parenthasized_expression"
             }
           ]
@@ -451,14 +455,14 @@
       ]
     },
     "variable": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
         "members": [
           {
             "type": "PATTERN",
-            "value": "[\\p{Letter}]+",
+            "value": "\\p{Letter}+",
             "flags": "u"
           },
           {
@@ -723,7 +727,7 @@
         }
       ]
     },
-    "number": {
+    "constant": {
       "type": "CHOICE",
       "members": [
         {
@@ -748,16 +752,7 @@
           "type": "ALIAS",
           "content": {
             "type": "STRING",
-            "value": "pi"
-          },
-          "named": true,
-          "value": "constant"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "PI"
+            "value": "e"
           },
           "named": true,
           "value": "constant"
@@ -770,42 +765,20 @@
           },
           "named": true,
           "value": "i"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "tau"
-          },
-          "named": true,
-          "value": "constant"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "TAU"
-          },
-          "named": true,
-          "value": "constant"
-        },
-        {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "e"
-          },
-          "named": true,
-          "value": "constant"
-        },
+        }
+      ]
+    },
+    "number": {
+      "type": "CHOICE",
+      "members": [
         {
           "type": "PATTERN",
-          "value": "\\p{Other_Number}",
+          "value": "\\p{Other_Number}+",
           "flags": "u"
         },
         {
           "type": "PATTERN",
-          "value": "\\p{Decimal_Number}",
+          "value": "\\p{Decimal_Number}+",
           "flags": "u"
         },
         {
@@ -813,7 +786,7 @@
           "members": [
             {
               "type": "PATTERN",
-              "value": "[⁰¹²³⁴⁵⁶⁷⁸⁹]"
+              "value": "[⁰¹²³⁴⁵⁶⁷⁸⁹]+"
             },
             {
               "type": "STRING",
@@ -821,7 +794,7 @@
             },
             {
               "type": "PATTERN",
-              "value": "[₀₁₂₃₄₅₆₇₈₉]"
+              "value": "[₀₁₂₃₄₅₆₇₈₉]+"
             }
           ]
         },
@@ -980,6 +953,10 @@
           {
             "type": "STRING",
             "value": "<="
+          },
+          {
+            "type": "STRING",
+            "value": "%"
           },
           {
             "type": "SYMBOL",

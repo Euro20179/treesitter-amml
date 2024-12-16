@@ -5,6 +5,25 @@
     "fields": {}
   },
   {
+    "type": "constant",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
+        {
+          "type": "i",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "create_var",
     "named": true,
     "fields": {
@@ -64,6 +83,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "constant",
+          "named": true
+        },
         {
           "type": "create_var",
           "named": true
@@ -229,21 +252,7 @@
   {
     "type": "number",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "constant",
-          "named": true
-        },
-        {
-          "type": "i",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "operator",
@@ -344,6 +353,10 @@
     "named": false
   },
   {
+    "type": "%",
+    "named": false
+  },
+  {
     "type": "'",
     "named": false
   },
@@ -433,10 +446,6 @@
   },
   {
     "type": "adhock_operator",
-    "named": true
-  },
-  {
-    "type": "constant",
     "named": true
   },
   {
