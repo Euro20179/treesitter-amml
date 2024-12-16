@@ -458,7 +458,7 @@
         "members": [
           {
             "type": "PATTERN",
-            "value": "[\\p{Letter}][\\p{Letter}\\p{Number}]*",
+            "value": "[\\p{Letter}]+",
             "flags": "u"
           },
           {
