@@ -455,7 +455,7 @@
       ]
     },
     "variable": {
-      "type": "PREC_LEFT",
+      "type": "PREC_RIGHT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -486,12 +486,9 @@
                   "type": "CHOICE",
                   "members": [
                     {
-                      "type": "REPEAT1",
-                      "content": {
-                        "type": "PATTERN",
-                        "value": "[₀-₉\\p{Modifier_Letter}]",
-                        "flags": "u"
-                      }
+                      "type": "PATTERN",
+                      "value": "[₀-₉\\p{Modifier_Letter}]+",
+                      "flags": "u"
                     },
                     {
                       "type": "SEQ",
@@ -731,31 +728,16 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "π"
-          },
-          "named": true,
-          "value": "constant"
+          "type": "STRING",
+          "value": "π"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "τ"
-          },
-          "named": true,
-          "value": "constant"
+          "type": "STRING",
+          "value": "τ"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "STRING",
-            "value": "e"
-          },
-          "named": true,
-          "value": "constant"
+          "type": "STRING",
+          "value": "e"
         },
         {
           "type": "ALIAS",

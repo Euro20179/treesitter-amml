@@ -39,6 +39,7 @@ let left \mod right = "the remainder of" left / right
 
 /*establishing an operator*/
 let "**" = "^"
+let "**"(left, right) = left ^ right
 
 /*integral*/
 ∫ x dx | 10 .. 1
@@ -67,10 +68,8 @@ let m₁ = [
     3 4
 ]
 
-let Z = "the set of all real integers"
-
 /*sequence*/
-let k = {int * 2 | int ∈ Z }
+let k = {x * 2 | x ∈ ℤ }
 let s = (kₓ²) for x = 1 .. 10
 s = (2^2, 4^2, 6^2 ... 20^2)
 s = (4, 16, 36 ... 400)

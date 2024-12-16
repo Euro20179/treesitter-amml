@@ -13,10 +13,6 @@
       "required": false,
       "types": [
         {
-          "type": "constant",
-          "named": true
-        },
-        {
           "type": "i",
           "named": true
         }
@@ -449,6 +445,10 @@
     "named": true
   },
   {
+    "type": "e",
+    "named": false
+  },
+  {
     "type": "i",
     "named": true
   },
@@ -486,6 +486,14 @@
   },
   {
     "type": "Σ",
+    "named": false
+  },
+  {
+    "type": "π",
+    "named": false
+  },
+  {
+    "type": "τ",
     "named": false
   },
   {
