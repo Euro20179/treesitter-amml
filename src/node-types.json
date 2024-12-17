@@ -120,6 +120,10 @@
           "named": true
         },
         {
+          "type": "unit",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
@@ -325,6 +329,25 @@
     "fields": {}
   },
   {
+    "type": "unit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "unit_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable",
     "named": true,
     "fields": {},
@@ -465,6 +488,10 @@
     "named": false
   },
   {
+    "type": "unit_name",
+    "named": true
+  },
+  {
     "type": "{",
     "named": false
   },
@@ -498,6 +525,22 @@
   },
   {
     "type": "∫",
+    "named": false
+  },
+  {
+    "type": "⌈",
+    "named": false
+  },
+  {
+    "type": "⌉",
+    "named": false
+  },
+  {
+    "type": "⌊",
+    "named": false
+  },
+  {
+    "type": "⌋",
     "named": false
   }
 ]

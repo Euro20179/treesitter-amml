@@ -42,10 +42,13 @@ module.exports = grammar({
         $.limit,
         $.constant,
         $.parenthasized_expression,
+        $.unit,
       )
     ),
 
     parenthasized_expression: $ => prec(20, seq("(", repeat1($.expression), ")")),
+
+    unit: $ => seq("'", alias(/[\p{Letter}]+/, $.unit_name), optional($.number), "'"),
 
     limit: $ => prec.right(
       seq(
@@ -93,7 +96,7 @@ module.exports = grammar({
     variable: $ =>
       prec.right(seq(
         /\p{Letter}+/u,
-        optional("'"),
+        optional(/['\u2032-\u2037\u2057]/),
         optional(alias(choice(
           /[₀-₉\p{Modifier_Letter}]+/u,
           seq(
@@ -101,7 +104,7 @@ module.exports = grammar({
             repeat1(/[^\p{Space_Separator}\p{Close_Punctuation}\p{Connector_Punctuation}\p{Dash_Punctuation}\p{Open_Punctuation}\p{Final_Punctuation}\p{Initial_Punctuation}\p{Other_Punctuation}]/u)
           )), $.variable_subscript)
         ),
-        optional("'"),
+        optional(/['\u2032-\u2037\u2057]/),
       ))
     ,
 
@@ -116,26 +119,20 @@ module.exports = grammar({
       ")"
     ),
 
-    // subtraction_bar: $ => seq(
-    //   alias("|", $.operator),
-    //   optional(alias("^", $.operator)),
-    //   $.number,
-    //   alias("..", $.operator),
-    //   optional(alias("_", $.operator)),
-    //   $.number
-    // ),
-
     create_var: $ => choice(
       seq(
         alias("let", $.keyword),
         optional(field("leftName", $.variable)),
-        $.adhock_operator,
+        choice(
+          $.adhock_operator,
+          seq('"', alias(/[^"\n]+/, $.operator), '"')
+        ),
         optional(field("rightName", $.variable)),
         alias("=", $.operator),
       ),
       prec.right(seq(
         alias("let", $.keyword),
-        choice($.variable, seq('"', alias(/[^"\n]+/, $.operator), '"')),
+        $.variable,
         optional($.func_names),
       )),
     ),
@@ -185,6 +182,8 @@ module.exports = grammar({
       ">=",
       "<=",
       "%",
+      "⌊", "⌋",
+      "⌈", "⌉",
       $.adhock_operator,
       //now this is what i call regex
       /\p{Math_Symbol}/u,
