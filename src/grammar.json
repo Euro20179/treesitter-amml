@@ -638,127 +638,127 @@
       ]
     },
     "create_var": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "let"
+          },
+          "named": true,
+          "value": "keyword"
+        },
+        {
+          "type": "CHOICE",
           "members": [
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "let"
-              },
-              "named": true,
-              "value": "keyword"
+              "type": "SYMBOL",
+              "name": "unit"
             },
             {
-              "type": "CHOICE",
+              "type": "SEQ",
               "members": [
                 {
-                  "type": "FIELD",
-                  "name": "leftName",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "variable"
-                  }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "adhock_operator"
-                },
-                {
-                  "type": "SEQ",
+                  "type": "CHOICE",
                   "members": [
                     {
-                      "type": "STRING",
-                      "value": "\""
-                    },
-                    {
-                      "type": "ALIAS",
+                      "type": "FIELD",
+                      "name": "leftName",
                       "content": {
-                        "type": "PATTERN",
-                        "value": "[^\"\\n]+"
-                      },
-                      "named": true,
-                      "value": "operator"
+                        "type": "SYMBOL",
+                        "name": "variable"
+                      }
                     },
                     {
-                      "type": "STRING",
-                      "value": "\""
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "adhock_operator"
+                    },
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "STRING",
+                          "value": "\""
+                        },
+                        {
+                          "type": "ALIAS",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[^\"\\n]+"
+                          },
+                          "named": true,
+                          "value": "operator"
+                        },
+                        {
+                          "type": "STRING",
+                          "value": "\""
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "rightName",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "variable"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
                     }
                   ]
                 }
               ]
             },
             {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "rightName",
-                  "content": {
+              "type": "PREC_RIGHT",
+              "value": 0,
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
                     "type": "SYMBOL",
                     "name": "variable"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "func_names"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": "="
-              },
-              "named": true,
-              "value": "operator"
+                ]
+              }
             }
           ]
         },
         {
-          "type": "PREC_RIGHT",
-          "value": 0,
+          "type": "ALIAS",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "STRING",
-                  "value": "let"
-                },
-                "named": true,
-                "value": "keyword"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "variable"
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "func_names"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          }
+            "type": "STRING",
+            "value": "="
+          },
+          "named": true,
+          "value": "operator"
         }
       ]
     },

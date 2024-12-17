@@ -119,22 +119,24 @@ module.exports = grammar({
       ")"
     ),
 
-    create_var: $ => choice(
-      seq(
-        alias("let", $.keyword),
-        optional(field("leftName", $.variable)),
-        choice(
-          $.adhock_operator,
-          seq('"', alias(/[^"\n]+/, $.operator), '"')
+    create_var: $ => seq(
+      alias("let", $.keyword),
+      choice(
+        $.unit,
+        seq(
+          optional(field("leftName", $.variable)),
+          choice(
+            $.adhock_operator,
+            seq('"', alias(/[^"\n]+/, $.operator), '"')
+          ),
+          optional(field("rightName", $.variable)),
         ),
-        optional(field("rightName", $.variable)),
-        alias("=", $.operator),
+        prec.right(seq(
+          $.variable,
+          optional($.func_names),
+        )),
       ),
-      prec.right(seq(
-        alias("let", $.keyword),
-        $.variable,
-        optional($.func_names),
-      )),
+        alias("=", $.operator),
     ),
 
     constant: $ => choice(

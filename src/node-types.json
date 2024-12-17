@@ -65,6 +65,10 @@
           "named": true
         },
         {
+          "type": "unit",
+          "named": true
+        },
+        {
           "type": "variable",
           "named": true
         }
